@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Sound Board</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="Song_1">Song 1</string><string name="Song_2">Song 2</string><string name="Song_3">Song 3</string><string name="Song_4">Song 4</string><string name="Song_5">Song 5</string><string name="Song_6">Song 6</string>
+
+</resources>
