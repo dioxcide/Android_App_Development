@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
             getWeather.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Context context = getApplicationContext();
-                    CharSequence text = "Hello toast!";
+                    CharSequence text = "GETTING WEATHER";
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
@@ -66,14 +66,6 @@ public class MainActivity extends Activity {
                 }
             });
         }
-
-        Context context = getApplicationContext();
-        CharSequence text = "Hello toast!";
-        int duration = Toast.LENGTH_SHORT;
-
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
-
         return true;
     }
 
