@@ -28,10 +28,8 @@ public class MainActivity extends Activity {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
-
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -39,36 +37,7 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
-    public boolean onTouchEvent(MotionEvent e){
-
-        getWeather = (Button)findViewById(R.id.getWeather);
-        if(getWeather != null) {
-            getWeather.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Context context = getApplicationContext();
-                    CharSequence text = "GETTING WEATHER";
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-
-                    EditText zipCode = (EditText) findViewById(R.id.editText);
-                    String city = zipCode.getText().toString();
-
-                    update_weather weather = new update_weather(city);
-
-                    getFragmentManager().beginTransaction()
-                            .replace(R.id.container, weather)
-                            .commit();
-
-                    weather.updateWeatherData(context);
-                }
-            });
-        }
-        return true;
-    }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -87,7 +56,10 @@ public class MainActivity extends Activity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends Fragment implements View.OnClickListener {
+
+        private Button getWeather;
+        private EditText zipCode;
 
         public PlaceholderFragment() {
         }
@@ -96,7 +68,37 @@ public class MainActivity extends Activity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
             return rootView;
+        }
+
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState){
+            super.onActivityCreated(savedInstanceState);
+            getWeather = (Button)getActivity().findViewById(R.id.getWeather);
+            getWeather.setOnClickListener((View.OnClickListener) this);
+
+            zipCode = (EditText)getActivity().findViewById(R.id.editText);
+        }
+
+        public void onClick(final View v){
+            if(v.getId() == R.id.getWeather){
+                CharSequence text = "GETTING WEATHER";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), text, duration);
+                toast.show();
+
+                String city = zipCode.getText().toString();
+
+                update_weather weather = new update_weather(city);
+
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container, weather)
+                        .commit();
+
+                weather.updateWeatherData(getActivity().getApplicationContext());
+            }
         }
     }
 }
