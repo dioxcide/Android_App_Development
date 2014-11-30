@@ -38,13 +38,14 @@ public class update_weather extends Fragment {
 
     private String zipcode = null;
     private ArrayList<String> ForeCast = new ArrayList<String>();
-    public String[] foreC = null;
+    private boolean metricOrImperial;
 
     public update_weather(){}
 
-    public update_weather(String zip) {
+    public update_weather(String zip, boolean metricOrImperial) {
         // Required empty public constructor
         this.zipcode = zip;
+        this.metricOrImperial = metricOrImperial;
     }
 
     public String getFromList(int i){
@@ -57,7 +58,7 @@ public class update_weather extends Fragment {
     }
 
     public void updateWeatherData(Context context){
-        String text = "Toast MISSION IS A GO!" + zipcode+"/";
+        String text = "MISSION IS A GO!" + zipcode+"!";
         int duration = Toast.LENGTH_SHORT;
 
         Toast toast = Toast.makeText(context, text, duration);
@@ -176,7 +177,15 @@ public class update_weather extends Fragment {
             String forecastJsonStr = null;
 
             String format = "json";
-            String units = "imperial";
+            String units = null;
+
+            if(metricOrImperial) {
+                 units = "imperial";
+            }
+            else{
+                 units = "metric";
+            }
+
             int numDays = 7;
 
             try {
@@ -269,14 +278,17 @@ public class update_weather extends Fragment {
                 // New data is back from the server.  Hooray!
                 String todaysForecast = getFromList(0);
                 String secondForecast = getFromList(1);
-                String thirtForecast = getFromList(2);
+                String thirdForecast = getFromList(2);
+                String fourthForecast = getFromList(3);
+                String fifthForecast = getFromList(4);
+                String sixthForecast = getFromList(5);
+                String seventhForecast = getFromList(6);
 
-                Activity context = getActivity();
                 Log.d("2DAYFC: ", todaysForecast);
 
-                TextView editText = (TextView)context.findViewById(R.id.WeatherDegrees);
+                TextView editText = (TextView)getActivity().findViewById(R.id.WeatherDegrees);
                 Log.d("CURRTEXT: ", editText.getText().toString());
-                editText.setText(todaysForecast+"\n"+secondForecast+"\n"+thirtForecast);
+                editText.setText(todaysForecast+"\n"+secondForecast+"\n"+thirdForecast+"\n"+fourthForecast+"\n"+fifthForecast+"\n"+sixthForecast+"\n"+seventhForecast+"\n");
             }
         }
     }

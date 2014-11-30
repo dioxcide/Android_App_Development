@@ -5,6 +5,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -57,12 +59,13 @@ public class MainActivity extends Activity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment implements View.OnClickListener {
+    public static class PlaceholderFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
 
         private Button getWeather;
         private EditText zipCode;
         private RadioButton fahrButton;
         private RadioButton celcButton;
+        private boolean metricOrImperial;
 
         public PlaceholderFragment() {
         }
@@ -84,8 +87,20 @@ public class MainActivity extends Activity {
             zipCode = (EditText)getActivity().findViewById(R.id.editText);
 
             fahrButton = (RadioButton)getActivity().findViewById(R.id.radioButton);
+            fahrButton.setOnCheckedChangeListener((android.widget.CompoundButton.OnCheckedChangeListener) this);
 
             celcButton = (RadioButton)getActivity().findViewById(R.id.radioButton2);
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if(buttonView.getId() == R.id.radioButton){
+                metricOrImperial = true;
+            }
+            else if(buttonView.getId() == R.id.radioButton2){
+                metricOrImperial = false;
+            }
+
         }
 
         public void onClick(final View v){
@@ -97,8 +112,13 @@ public class MainActivity extends Activity {
                 toast.show();
 
                 String city = zipCode.getText().toString();
-
-                update_weather weather = new update_weather(city);
+                if(metricOrImperial) {
+                    Log.d("IMP OR METRIC", "Imperial");
+                }
+                else{
+                    Log.d("METRIC","METRICX");
+                }
+                update_weather weather = new update_weather(city, metricOrImperial);
 
                 getFragmentManager().beginTransaction()
                         .replace(R.id.container, weather)
@@ -107,5 +127,6 @@ public class MainActivity extends Activity {
                 weather.updateWeatherData(getActivity().getApplicationContext());
             }
         }
+
     }
 }
