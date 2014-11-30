@@ -1,7 +1,6 @@
 package com.example.tony.weatherappv2;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -11,7 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +24,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.AllPermission;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +37,7 @@ public class update_weather extends Fragment {
     private String zipcode = null;
     private ArrayList<String> ForeCast = new ArrayList<String>();
     private boolean metricOrImperial;
+    private ProgressBar mProgress;
 
     public update_weather(){}
 
@@ -57,12 +56,19 @@ public class update_weather extends Fragment {
         Log.d("MSG", Integer.toString(ForeCast.size()));
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        mProgress = (ProgressBar)getActivity().findViewById(R.id.progressBar);
+    }
+
     public void updateWeatherData(Context context){
         String text = "MISSION IS A GO!" + zipcode+"!";
         int duration = Toast.LENGTH_SHORT;
 
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
+
 
         FetchWeatherTask update = new FetchWeatherTask();
         update.execute(zipcode);
@@ -75,7 +81,7 @@ public class update_weather extends Fragment {
         return inflater.inflate(R.layout.fragment_update_weather, container, false);
     }
 
-    public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
+    private class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
@@ -160,6 +166,14 @@ public class update_weather extends Fragment {
             return resultStrs;
 
         }
+
+        @Override
+        protected void onPreExecute() {
+            if (mProgress != null) {
+                mProgress.setVisibility(View.VISIBLE);
+            }
+        }
+
         @Override
         protected String[] doInBackground(String... params) {
 
@@ -269,6 +283,10 @@ public class update_weather extends Fragment {
 
         @Override
         protected void onPostExecute(String[] result) {
+            if (mProgress != null) {
+                mProgress.setVisibility(View.GONE);
+            }
+
             if (result != null) {
 
                 for(String dayForecastStr : result) {
