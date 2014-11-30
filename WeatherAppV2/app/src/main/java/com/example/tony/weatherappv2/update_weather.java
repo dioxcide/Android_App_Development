@@ -81,6 +81,8 @@ public class update_weather extends Fragment {
         return inflater.inflate(R.layout.fragment_update_weather, container, false);
     }
 
+    //THE FOLLOWING CLASS WAS PROVIDED BY THE UDACITY GITHUB
+    //IN ORDER TO HELP WITH THE PARSING OF JSON DATA
     private class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
@@ -200,7 +202,7 @@ public class update_weather extends Fragment {
                  units = "metric";
             }
 
-            int numDays = 7;
+            int numDays = 15;
 
             try {
                 // Construct the URL for the OpenWeatherMap query
