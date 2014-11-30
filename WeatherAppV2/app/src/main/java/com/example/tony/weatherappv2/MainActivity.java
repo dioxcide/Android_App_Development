@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 
@@ -37,7 +38,7 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -60,6 +61,8 @@ public class MainActivity extends Activity {
 
         private Button getWeather;
         private EditText zipCode;
+        private RadioButton fahrButton;
+        private RadioButton celcButton;
 
         public PlaceholderFragment() {
         }
@@ -79,6 +82,10 @@ public class MainActivity extends Activity {
             getWeather.setOnClickListener((View.OnClickListener) this);
 
             zipCode = (EditText)getActivity().findViewById(R.id.editText);
+
+            fahrButton = (RadioButton)getActivity().findViewById(R.id.radioButton);
+
+            celcButton = (RadioButton)getActivity().findViewById(R.id.radioButton2);
         }
 
         public void onClick(final View v){
